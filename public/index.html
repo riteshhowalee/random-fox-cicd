@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A small moment of wild. Discover a random fox, powered by RandomFox.">
+  <title>Fox & Found · Random Fox</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="/">FOX <span>&</span> FOUND</a><span class="header-note">A LITTLE MORE WILD.</span></header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">THE INTERNET'S COZIEST CORNER</p>
+      <h1 id="title">Take a break.<br>Meet a <em>fox.</em></h1>
+      <p class="description">A curious face, a magnificent tail, a small moment of joy. Your next woodland friend is one click away.</p>
+      <button id="new-fox" type="button">Find me a fox <span aria-hidden="true">↗</span></button>
+      <p id="status" role="status" aria-live="polite">Ready to meet your first fox.</p>
+      <a id="source" target="_blank" rel="noopener noreferrer" hidden>Visit this fox on RandomFox ↗</a>
+    </section>
+    <section class="photo-card" aria-label="Random fox photograph" aria-busy="false">
+      <div class="photo-frame">
+        <div id="placeholder" aria-hidden="true"><span class="fox-mark">🦊</span><p>A little wonder awaits.</p></div>
+        <img id="fox-image" alt="A random fox from RandomFox" hidden>
+      </div>
+      <div class="caption"><span>FIELD NOTES / <strong>VULPES VULPES</strong></span><span id="count">NO. 000</span></div>
+    </section>
+  </main>
+  <footer><span>Built with curiosity. Tested with care.</span><a href="https://randomfox.ca/" target="_blank" rel="noopener noreferrer">Photographs via RandomFox ↗</a></footer>
+  <noscript>This app needs JavaScript. Enable it and reload to find a fox.</noscript>
+</body>
+</html>

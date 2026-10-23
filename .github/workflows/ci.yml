@@ -1,0 +1,58 @@
+name: Random Fox CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Check and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Install from lockfile
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Check JavaScript syntax
+        run: npm run check
+      - name: Run automated tests
+        run: npm test
+
+  docker:
+    name: Build and smoke-test Docker image
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Build image tagged with commit
+        run: docker build --pull --tag random-fox:${{ github.sha }} .
+      - name: Set up Node.js for smoke test
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Start container
+        run: docker run --detach --name random-fox-ci --publish 127.0.0.1:3000:3000 random-fox:${{ github.sha }}
+      - name: Verify container serves app and health endpoint
+        run: node scripts/smoke.mjs
+      - name: Show logs and clean up
+        if: always()
+        run: |
+          docker logs random-fox-ci || true
+          docker rm --force random-fox-ci || true
